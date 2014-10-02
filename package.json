@@ -1,0 +1,51 @@
+{
+  "name": "tickets",
+  "version": "0.1.0",
+  "description": "Retrieves the state of JIRA tickets refered to in your code.",
+  "keywords": [
+    "titanium",
+    "appcelerator",
+    "alloy",
+    "jira"
+  ],
+  "homepage": "git://github.com/fokkezb/tickets.git",
+  "bugs": {
+    "url": "https://github.com/fokkezb/tickets/issues",
+    "email": "mail@fokkezb.nl"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Fokke Zandbergen",
+    "email": "mail@fokkezb.nl",
+    "url": "http://fokkezb.nl"
+  },
+  "main": "./lib/tickets.js",
+  "bin": {
+    "tickets": "./bin/tickets"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fokkezb/tickets.git"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "chalk": "^0.5.1",
+    "commander": "~2.3.0",
+    "find": "^0.1.7",
+    "lodash": "~2.4.1",
+    "request": "^2.44.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.4",
+    "grunt-mocha-test": "~0.10.0",
+    "grunt-contrib-jshint": "~0.10.0",
+    "should": "~3.3.0",
+    "grunt-contrib-clean": "~0.5.0"
+  },
+  "engines": {
+    "node": ">=0.10"
+  }
+}

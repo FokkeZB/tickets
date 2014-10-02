@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+var program = require('commander'),
+  chalk = require('chalk');
+
+var tickets = require('../lib/tickets'),
+  constants = require('../lib/constants');
+
+program.description('Tickets for Titanium')
+  .version(require('../package.json').version, '-v, --version')
+  .option('-d, --dir <value>', 'directory to search in [default: ' + chalk.cyan(constants.opts.dir) + ']')
+  .option('-e, --extensions <items>', 'comma-seperated list of file extensions or ' + chalk.cyan('+') + ' for all [default: ' + chalk.cyan(constants.opts.extensions.join(',')) + ']]', function(val) {
+    return (val === '+') ? val : val.split(',');
+  })
+  .option('-k, --keys <items>', 'comma-seperated list of JIRA project keys or ' + chalk.cyan('+') + ' for all [default: ' + chalk.cyan(constants.opts.keys.join(',')) + ']', function(val) {
+    return (val === '+') ? val : val.split(',');
+  })
+  .option('-j, --jira <value>', 'url of the JIRA install to query [default: ' + chalk.cyan(constants.opts.jira) + ']')
+  .option('-u, --username <value>', 'optional username to login to JIRA')
+  .option('-p, --password <value>', 'optional password to login to JIRA');
+
+program.parse(process.argv);
+
+tickets(program);
