@@ -4,7 +4,7 @@ A [node.js](http://nodejs.org/) API module and CLI for searching your code for r
 
 I use this after each new release of Appcelerator's [Titanium](http://www.appcelerator.com/titanium/) to see if it fixes issues I have worked around in my code. This is also where the defaults for this module come from. However, you can override any of them easily.
 
-Make it a habbit to refer to issues you report or run into so you can simply run this CLI after every new release to see what workarounds you can remove!
+Make it a habit to refer to issues you report or run into so you can simply run this CLI after every new release to see what workarounds you can remove!
 
 ## Example
 
@@ -50,7 +50,7 @@ tickets({
 
 ## Options
 
-Type `tickes -h` to see the options:
+Type `tickets -h` to see the options:
 
 ```
 -d, --dir <value>         directory to search in [default: process.cwd()]
@@ -64,7 +64,7 @@ Type `tickes -h` to see the options:
 -p, --password <value>    optional password to login to JIRA
 ```
 
-## Tests [![Travis](http://img.shields.io/travis/FokkeZB/TiCons-CLI.png)](https://travis-ci.org/FokkeZB/TiCons-CLI)
+## Tests [![Travis](http://img.shields.io/travis/FokkeZB/tickets.png)](https://travis-ci.org/FokkeZB/tickets)
 
 1. Install [node.js](http://nodejs.org/).
 2. Install [grunt](http://gruntjs.com/): `[sudo] npm install -g grunt-cli`
