@@ -67,6 +67,31 @@ describe('Tickets', function() {
 
 		});
 
+		it('should find tickets of two JIRAs', function(done){
+
+			tickets({
+				dir: path.resolve('test', 'fixtures', 'all'),
+		    jira: [
+	        {
+	          url: 'https://jira.appcelerator.org/',
+	          keys: ['TIMOB', 'ALOY']
+	        },{
+	          url: 'https://jira.appcelerator.org/',
+	          keys: ['TC']
+	        }
+		    ]
+			}, function(err, issues){
+				if (err) {
+					throw err;
+				}
+
+				issues.should.be.an.Array;
+
+				done();
+			});
+
+		});
+
 	});
 
 });
