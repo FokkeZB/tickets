@@ -86,12 +86,12 @@ grunt.registerTask('tickets', 'Checking for referenced JIRA tickets that are clo
 
 1. Install [node.js](http://nodejs.org/).
 2. Install [grunt](http://gruntjs.com/): `[sudo] npm install -g grunt-cli`
-3. Clone the repo: `git clone https://github.com/fokkezb/ticons-cli.git && cd ticons-cli && npm install`
+3. Clone the repo: `git clone https://github.com/fokkezb/tickets.git && cd tickets && npm install`
 4. Run tests: `grunt test`
 
 ## Issues
 
-Please report issues and features requests in the repo's [issue tracker](https://github.com/fokkezb/ticons-cli/issues).
+Please report issues and features requests in the repo's [issue tracker](https://github.com/fokkezb/tickets/issues).
 
 ## License
 
