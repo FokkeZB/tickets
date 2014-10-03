@@ -1,10 +1,10 @@
 # Tickets [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-A [node.js](http://nodejs.org/) API module and CLI for searching your code for references to [JIRA](https://www.atlassian.com/software/jira) tickets and looking up their status so you can take action.
+A [node.js](http://nodejs.org/) API module and CLI for searching your code for comments referencing [JIRA](https://www.atlassian.com/software/jira) tickets and looking up their current status.
 
-I use this after each new release of Appcelerator's [Titanium](http://www.appcelerator.com/titanium/) to see if it fixes issues I have worked around in my code. This is also where the defaults for this module come from. However, you can override any of them easily.
+## Usage
 
-Make it a habit to refer to issues you report or run into so you can simply run this CLI after every new release to see what workarounds you can remove!
+I use tickets after each new release of Appcelerator's [Titanium](http://www.appcelerator.com/titanium/) to see if it fixes issues I have worked around in my code. This is also where the defaults for this module come from. However, you can override any of them easily via the listed [options](#options).
 
 ## Example
 
@@ -19,49 +19,67 @@ A screencast showing the CLI in action:
 $ sudo npm install -g tickets
 ```
 
-### API
-
-You can also use tickets as a module. It exports just a single function which you can call with an object containing any of the options and a callback to receive the error or found issues.
-
-```
-var tickets = require('tickets');
-
-tickets({
-	dir: 'my/dir',
-	extensions: 'js',		// takes both CSV or
-	keys: ['FOO', 'BAR']	// Array
-
-}, function (err, issues) {
-	
-	issues.forEach(function(issue) {
-		console.log('Key: ' + issue.key);
-		console.log('Files:');
-		
-		issue.files.forEach(function(lines, file) {
-			console.log(file + ' #' + lines.join(', #'));
-		});
-
-		console.log('JIRA fields:');
-		console.log(JSON.stringify(issue.fields, null, '  '));
-	});
-	
-});
-```
-
 ## Options
 
 Type `tickets -h` to see the options:
 
 ```
 -d, --dir <value>         directory to search in [default: process.cwd()]
--e, --extensions <items>  comma-seperated list of file extensions or + for all
+-e, --extensions <items>  comma-separated list of file extensions or + for all
                           [default: js,jmk,tss,xml]]
--k, --keys <items>        comma-seperated list of JIRA project keys or + for all
+-k, --keys <items>        comma-separated list of JIRA project keys or + for all
                           [default: TIMOB,ALOY]
 -j, --jira <value>        url of the JIRA install to query
                           [default: https://jira.appcelerator.org/]
 -u, --username <value>    optional username to login to JIRA
 -p, --password <value>    optional password to login to JIRA
+```
+
+### API
+
+You can also use tickets as a module. It exports just a single function which you can call with an object containing any of the options and a callback to receive the error or found issues.
+
+An example [inspired](https://github.com/FokkeZB/tickets/issues/1) by @manumaticx to use as a Grunt task:
+
+```
+grunt.registerTask('tickets', 'Checking for referenced JIRA tickets that are closed', function() {
+  var done = this.async(),
+    tickets = require('tickets');
+
+  tickets({
+    dir: 'app',
+    extensions: 'js,tss,xml', // takes both CSV and
+    keys: ['ALOY', 'TC'] // Array
+
+  }, function(err, issues) {
+
+    if (err) {
+      grunt.log.error(err);
+    } else {
+      issues.forEach(function(issue) {
+        if (!issue.error && issue.fields.status.name === 'Closed') {
+          var versions = [];
+          var files = [];
+
+          issue.fields.fixVersions.forEach(function(version) {
+            versions.push(version.name + ' (' + version.releaseDate + ')');
+          });
+
+          for (var file in issue.files) {
+             files.push(file + ' #' + issue.files[file].join(', #'));
+          }
+
+          grunt.log.writeln();
+          grunt.log.writeln('   Issue: ' + issue.key);
+          grunt.log.writeln('Versions: ' + versions.join(', '));
+          grunt.log.writeln('   Files: ' + files.join(', '));
+        }
+      });
+    }
+
+    done();
+  });
+});
 ```
 
 ## Tests [![Travis](http://img.shields.io/travis/FokkeZB/tickets.png)](https://travis-ci.org/FokkeZB/tickets)

@@ -9,10 +9,10 @@ var tickets = require('../lib/tickets'),
 program.description('Tickets for Titanium')
   .version(require('../package.json').version, '-v, --version')
   .option('-d, --dir <value>', 'directory to search in [default: ' + chalk.cyan(constants.opts.dir) + ']')
-  .option('-e, --extensions <items>', 'comma-seperated list of file extensions or ' + chalk.cyan('+') + ' for all [default: ' + chalk.cyan(constants.opts.extensions.join(',')) + ']]', function(val) {
+  .option('-e, --extensions <items>', 'comma-separated list of file extensions or ' + chalk.cyan('+') + ' for all [default: ' + chalk.cyan(constants.opts.extensions.join(',')) + ']]', function(val) {
     return (val === '+') ? val : val.split(',');
   })
-  .option('-k, --keys <items>', 'comma-seperated list of JIRA project keys or ' + chalk.cyan('+') + ' for all [default: ' + chalk.cyan(constants.opts.keys.join(',')) + ']', function(val) {
+  .option('-k, --keys <items>', 'comma-separated list of JIRA project keys or ' + chalk.cyan('+') + ' for all [default: ' + chalk.cyan(constants.opts.keys.join(',')) + ']', function(val) {
     return (val === '+') ? val : val.split(',');
   })
   .option('-j, --jira <value>', 'url of the JIRA install to query [default: ' + chalk.cyan(constants.opts.jira) + ']')

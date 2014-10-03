@@ -8,7 +8,7 @@
     "alloy",
     "jira"
   ],
-  "homepage": "git://github.com/fokkezb/tickets.git",
+  "homepage": "https://github.com/fokkezb/tickets",
   "bugs": {
     "url": "https://github.com/fokkezb/tickets/issues",
     "email": "mail@fokkezb.nl"
