@@ -15,7 +15,37 @@ program.description('Tickets for Titanium')
   .option('-k, --keys <items>', 'comma-separated list of JIRA project keys or ' + chalk.cyan('+') + ' for all [default: ' + chalk.cyan(constants.opts.keys.join(',')) + ']', function(val) {
     return (val === '+') ? val : val.split(',');
   })
-  .option('-j, --jira <value>', 'url of the JIRA install to query [default: ' + chalk.cyan(constants.opts.jira) + ']')
+  .option('-j, --jira <value>', 'url of the JIRA install to query [default: ' + chalk.cyan(constants.opts.jira) + ']', function(val){
+    if (val.indexOf(';') > 0){
+      var jiras = [];
+
+      // user:pass@http://jira.company.com:ALOY,TIMOB;
+      val.spilt(';').forEach(function(jira){
+        var jcfg = {};
+
+        if (jira.indexOf('@') > -1){
+          var auth = jira.split('@')[0].split(':');
+          jcfg['username'] = auth[0];
+          jcfg['password'] = auth[1];
+
+          jira = jira.slice(jira.indexOf('@') + 1);
+        }
+
+        if (jira.indexOf(':') > -1){
+          jcfg['url'] = jira.split(':')[0];
+          jcfg['keys'] = jira.split(':')[1].split(',');
+        } else {
+          jcfg['url'] = jira;
+        }
+
+        jiras.push(jcfg);
+      });
+
+      return jiras;
+    }
+
+    return val;
+  })
   .option('-u, --username <value>', 'optional username to login to JIRA')
   .option('-p, --password <value>', 'optional password to login to JIRA');
 
