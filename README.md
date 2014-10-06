@@ -29,7 +29,9 @@ Type `tickets -h` to see the options:
                           [default: js,jmk,tss,xml]]
 -k, --keys <items>        comma-separated list of JIRA project keys or + for all
                           [default: TIMOB,ALOY]
--j, --jira <value>        url of the JIRA install to query
+-j, --jira [value]        reapeatable jira configuration
+                          [example: user:password@http://jira.company.com/:KEY1,KEY2 ]
+-U, --url <value>         url of the JIRA install to query
                           [default: https://jira.appcelerator.org/]
 -u, --username <value>    optional username to login to JIRA
 -p, --password <value>    optional password to login to JIRA
