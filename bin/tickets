@@ -17,7 +17,7 @@ function jira(val, memo){
     val = val.slice(val.indexOf('@') + 1);
   }
 
-  if (val.indexOf(':') > -1){
+  if ((val.match(/:/g) || []).length > 1){
     jira['url'] = val.substr(0, val.lastIndexOf(':'));
     jira['keys'] = val.substr(val.lastIndexOf(':') + 1).split(',');
   } else {
@@ -25,6 +25,7 @@ function jira(val, memo){
   }
 
   memo.push(jira);
+  return memo;
 }
 
 program.description('Tickets for Titanium')
@@ -36,11 +37,20 @@ program.description('Tickets for Titanium')
   .option('-k, --keys <items>', 'comma-separated list of JIRA project keys or ' + chalk.cyan('+') + ' for all [default: ' + chalk.cyan(constants.opts.keys.join(',')) + ']', function(val) {
     return (val === '+') ? val : val.split(',');
   })
-  .option('-j, --jira [value]', 'reapeatable jira configuration [example: user:password@http://jira.company.com/:KEY1,KEY2 ]', jira, [])
-  .option('-U, --url <value>', 'url of the JIRA install to query [default: ' + chalk.cyan(constants.opts.url) + ']')
+  .option('-j, --jira <value>', 'either: url of the JIRA install [default: ' + chalk.cyan(constants.opts.jira[0].url) + ']\n\t or: reapeatable jira configuration [example: user:password@http://jira.company.com/:KEY1,KEY2 ]', jira, [])
   .option('-u, --username <value>', 'optional username to login to JIRA')
   .option('-p, --password <value>', 'optional password to login to JIRA');
 
 program.parse(process.argv);
+
+if (program.jira.length > 0){
+  program.jira.forEach(function(jira){
+    ['keys', 'username', 'password'].forEach(function(prop){
+      !jira.hasOwnProperty(prop) && (jira[prop] = program[prop] || constants.opts[prop]);
+    });
+  });
+} else {
+  program.jira = constants.opts.jira;
+}
 
 tickets(program);
