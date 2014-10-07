@@ -6,6 +6,28 @@ var program = require('commander'),
 var tickets = require('../lib/tickets'),
   constants = require('../lib/constants');
 
+function jira(val, memo){
+  var jira = {};
+
+  if (val.indexOf('@') > -1){
+    var auth = val.split('@')[0].split(':');
+    jira['username'] = auth[0];
+    jira['password'] = auth[1];
+
+    val = val.slice(val.indexOf('@') + 1);
+  }
+
+  if ((val.match(/:/g) || []).length > 1){
+    jira['url'] = val.substr(0, val.lastIndexOf(':'));
+    jira['keys'] = val.substr(val.lastIndexOf(':') + 1).split(',');
+  } else {
+    jira['url'] = val;
+  }
+
+  memo.push(jira);
+  return memo;
+}
+
 program.description('Tickets for Titanium')
   .version(require('../package.json').version, '-v, --version')
   .option('-d, --dir <value>', 'directory to search in [default: ' + chalk.cyan(constants.opts.dir) + ']')
@@ -15,10 +37,20 @@ program.description('Tickets for Titanium')
   .option('-k, --keys <items>', 'comma-separated list of JIRA project keys or ' + chalk.cyan('+') + ' for all [default: ' + chalk.cyan(constants.opts.keys.join(',')) + ']', function(val) {
     return (val === '+') ? val : val.split(',');
   })
-  .option('-j, --jira <value>', 'url of the JIRA install to query [default: ' + chalk.cyan(constants.opts.jira) + ']')
+  .option('-j, --jira <value>', 'either: url of the JIRA install [default: ' + chalk.cyan(constants.opts.jira[0].url) + ']\n\t or: reapeatable jira configuration [example: user:password@http://jira.company.com/:KEY1,KEY2 ]', jira, [])
   .option('-u, --username <value>', 'optional username to login to JIRA')
   .option('-p, --password <value>', 'optional password to login to JIRA');
 
 program.parse(process.argv);
+
+if (program.jira.length > 0){
+  program.jira.forEach(function(jira){
+    ['keys', 'username', 'password'].forEach(function(prop){
+      !jira.hasOwnProperty(prop) && (jira[prop] = program[prop] || constants.opts[prop]);
+    });
+  });
+} else {
+  program.jira = constants.opts.jira;
+}
 
 tickets(program);

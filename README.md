@@ -31,6 +31,9 @@ Type `tickets -h` to see the options:
                           [default: TIMOB,ALOY]
 -j, --jira <value>        url of the JIRA install to query
                           [default: https://jira.appcelerator.org/]
+                          OR
+                          reapeatable jira configuration
+                          [example: user:password@http://jira.company.com/:KEY1,KEY2 ]
 -u, --username <value>    optional username to login to JIRA
 -p, --password <value>    optional password to login to JIRA
 ```
