@@ -5,6 +5,8 @@ var should = require('should');
 var tickets = require('../lib/tickets');
 
 describe('Tickets', function() {
+	
+	this.timeout(20000);
 
 	describe('#simple', function() {
 
