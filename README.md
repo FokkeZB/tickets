@@ -85,6 +85,13 @@ grunt.registerTask('tickets', 'Checking for referenced JIRA tickets that are clo
 });
 ```
 
+## Changelog
+
+* 0.2.1: Fixes tickets not found at end of lines, Adds full URL to output
+* 0.2.0: Adds support for searching multiple JIRAs
+* 0.1.1: Adds fixVersions and improves formatting
+* 0.1.0: Initial release
+
 ## Tests [![Travis](http://img.shields.io/travis/FokkeZB/tickets.png)](https://travis-ci.org/FokkeZB/tickets)
 
 1. Install [node.js](http://nodejs.org/).

@@ -35,7 +35,7 @@ describe('Tickets', function() {
 				}
 
 				issues.should.be.an.Array;
-				issues.should.have.a.lengthOf(3);
+				issues.should.have.a.lengthOf(4);
 
 				issues[0].should.be.an.Object;
 				issues[0].should.have.properties({
