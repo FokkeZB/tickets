@@ -6,25 +6,28 @@ var program = require('commander'),
 var tickets = require('../lib/tickets'),
   constants = require('../lib/constants');
 
-function jira(val, memo){
-  var jira = {};
+function jira(val, memo) {
+  var set = {};
 
-  if (val.indexOf('@') > -1){
+  if (val.indexOf('@') > -1) {
     var auth = val.split('@')[0].split(':');
-    jira['username'] = auth[0];
-    jira['password'] = auth[1];
+
+    set.username = auth[0];
+    set.password = auth[1];
 
     val = val.slice(val.indexOf('@') + 1);
   }
 
-  if ((val.match(/:/g) || []).length > 1){
-    jira['url'] = val.substr(0, val.lastIndexOf(':'));
-    jira['keys'] = val.substr(val.lastIndexOf(':') + 1).split(',');
+  if ((val.match(/:/g) || []).length > 1) {
+    set.url = val.substr(0, val.lastIndexOf(':'));
+    set.keys = val.substr(val.lastIndexOf(':') + 1).split(',');
+
   } else {
-    jira['url'] = val;
+    set.url = val;
   }
 
-  memo.push(jira);
+  memo.push(set);
+
   return memo;
 }
 
@@ -43,9 +46,9 @@ program.description('Tickets for Titanium')
 
 program.parse(process.argv);
 
-if (program.jira.length > 0){
-  program.jira.forEach(function(jira){
-    ['keys', 'username', 'password'].forEach(function(prop){
+if (program.jira.length > 0) {
+  program.jira.forEach(function(jira) {
+    ['keys', 'username', 'password'].forEach(function(prop) {
       !jira.hasOwnProperty(prop) && (jira[prop] = program[prop] || constants.opts[prop]);
     });
   });
