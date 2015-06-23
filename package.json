@@ -1,6 +1,6 @@
 {
   "name": "tickets",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Retrieves the state of JIRA tickets refered to in your code.",
   "keywords": [
     "titanium",
